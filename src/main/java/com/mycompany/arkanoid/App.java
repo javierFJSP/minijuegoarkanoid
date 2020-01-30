@@ -5,6 +5,7 @@ import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -33,14 +34,18 @@ public class App extends Application {
     byte ballCurrentSpeedX = 3;
     byte ballDirectionX = 1;
     
-    short ballCenterY = 0;
+    short ballCenterY = 30;
     byte ballCurrentSpeedY = 3;
     byte ballDirectionY = 1;
     
     short palaPosX = (short)((Scene_height)/2);
+    short palaPosY = 400;
     byte palaCurrentSpeed = 3;
     byte palaDirectionX = 0;
-   // short palaPosX
+    byte palaDirectionY = 0;
+    
+    
+    
     
     // Cuadros de texto para las puntuaciones
     Text textScore;
@@ -73,10 +78,27 @@ public class App extends Application {
         root.getChildren().add(circleBall);
         
         //barra de control
-        Image barra = new Image(getClass().getResourceAsStream("/imagenes/barracontrol.PNG"));
-        ImageView imageView2 = new ImageView(barra);
-        imageView2.setX(palaPosX);
-        root.getChildren().add(imageView2);
+   //     RECTANGLE  =;
+//        Image barra = new Image(getClass().getResourceAsStream("/imagenes/barracontrol.PNG"));
+//        ImageView imageViewPala = new ImageView(barra);
+//        imageViewPala.setX(palaPosX);
+//        imageViewPala.setY(palaPosY);
+//        root.getChildren().add(imageViewPala);
+        
+        Rectangle rectPala = new Rectangle();
+        rectPala.setWidth(50);
+        rectPala.setHeight(10);
+        rectPala.setX(palaPosX);
+        rectPala.setY(palaPosY);
+        rectPala.setFill(Color.GREEN);        
+        root.getChildren().add(rectPala);
+        
+        
+//        Group groupPala = new Group();
+//        groupPala.getChildren().add(rectPala);
+//        groupPala.getChildren().add(imageViewPala);
+//        root.getChildren().add(groupPala);
+ 
     
         //control de la barra <- o ->
         scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
@@ -130,23 +152,26 @@ public class App extends Application {
                     } else if(ballCenterX <= 0){
                         ballDirectionX = 1;
                     }
+                    
                     // Control de rebote vertical  
-                    if(ballCenterY >= Scene_height) {
+                    if(ballCenterY >= 420) {
                         
-                        ballDirectionY = -1;
+                        ballDirectionY = -3;
                     } else if(ballCenterY <= 0){
-                        ballDirectionY = 1;
+                        ballDirectionY = 3;
                     }
+                    
                     // DETECCIÓN DE COLISIÓN 
-//                    Shape shapeCollision = Shape.intersect(circleBall, circleBall);
-//                    boolean colisionVacia = shapeCollision.getBoundsInLocal().isEmpty();
-//                    if(colisionVacia == false && ballDirectionX == 1) {
-//                        ballDirectionX = -1;
-//                        score++;
-//                        textScore.setText(String.valueOf(score));
-//                    }
+                    Shape shapeCollision = Shape.intersect(circleBall, rectPala);
+                    boolean colisionVacia = shapeCollision.getBoundsInLocal().isEmpty();
+                    if(colisionVacia == false && ballDirectionX == 1) {
+                        ballDirectionX = -1;
+                        score++;
+                        textScore.setText(String.valueOf(score));
+                    }
+                    
                     // ANIMACIÓN DE LA PALA
-                    imageView2.setX(palaPosX);
+                    rectPala.setX(palaPosX);
                     palaPosX += palaCurrentSpeed * palaDirectionX;
                     if(palaPosX <= 0 || palaPosX >= Scene_height-stickHeight) {
                         palaDirectionX = 0;

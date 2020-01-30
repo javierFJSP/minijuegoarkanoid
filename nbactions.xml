@@ -7,8 +7,8 @@
             </packagings>
             <goals>
                 <goal>clean</goal>
-                <goal>javafx:</goal>
-                <goal>run</goal>
+                <goal>javafx:run</goal>
+                
             </goals>
         </action>
     </actions>
