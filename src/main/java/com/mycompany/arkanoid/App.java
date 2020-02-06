@@ -146,29 +146,73 @@ public class App extends Application {
                     ballCenterX += ballCurrentSpeedX * ballDirectionX;
                     ballCenterY += ballCurrentSpeedY * ballDirectionY;
                     // Control de rebote horizontal
-                    if(ballCenterX >= 340) {
-                        ballCenterX = 10;
-                        ballDirectionX = 1;
+                    if(ballCenterX >= Scene_width) {
+                      
+                        ballDirectionX = -1;
                     } else if(ballCenterX <= 0){
                         ballDirectionX = 1;
                     }
                     
                     // Control de rebote vertical  
-                    if(ballCenterY >= 420) {
+                    if(ballCenterY >= Scene_height) {
                         
-                        ballDirectionY = -3;
+                        ballDirectionY = -1;
                     } else if(ballCenterY <= 0){
-                        ballDirectionY = 3;
+                        ballDirectionY = 1;
                     }
                     
                     // DETECCIÓN DE COLISIÓN 
                     Shape shapeCollision = Shape.intersect(circleBall, rectPala);
                     boolean colisionVacia = shapeCollision.getBoundsInLocal().isEmpty();
-                    if(colisionVacia == false && ballDirectionX == 1) {
-                        ballDirectionX = -1;
+                    if(colisionVacia == false) {
+                        ballDirectionX = 1;
                         score++;
                         textScore.setText(String.valueOf(score));
                     }
+                    
+                    
+ //                   private int getStickCollisionZone(Circle ball, Rectangle stick) {
+ //                       if (shape.intersect(ball, stick)getBoundInLocal().isEmpty()) {
+ //                           return 0;
+ //                       } else {
+ //                           double offsetBallStick = ball.getCenterY()- stick.getY();
+ //                           if(offsetBallStick < stick.getHeight() * 0.1) {
+ //                               return 1;
+ //                           } else if(offsetBallStick < stick.getHeight() / 2) {
+ //                               return 2;
+ //                           } else if(offsetBallStick >= stick.getHeight() / 2 && offsetBallStick < stick.getHeight() * 0.9) {
+  //                              return 3;
+ //                           } else {
+ //                               return 4;
+ //                           }
+ //                       }
+ //                   }
+                    
+ //                   int collisionZone = getStickCollisionZone(circleBall, rectPala);
+                    
+ //                   private void calculateBallSpeed(int collisionZone) {
+ //                       switch(collisionZone) {
+ //                           case 0:
+ //                               break;
+ //                           case 1:
+ //                               ballCurrentSpeedX = -3;
+ //                               ballCurrentSpeedY = -6;
+ //                               break;
+ //                           case 2:
+ //                               ballCurrentSpeedX = -3;
+ //                               ballCurrentSpeedY = -3;
+ //                               break;
+ //                           case 3:
+ //                               ballCurrentSpeedX = -3;
+ //                               ballCurrentSpeedY = 3;
+ //                               break;
+ //                           case 4:
+ //                               ballCurrentSpeedX = -3;
+ //                               ballCurrentSpeedY = 6;
+ //                               break;        
+ //                       }
+                    //}
+//                    calculateBallSpeed(getStickCollisionZone(circleBall, rectPala));
                     
                     // ANIMACIÓN DE LA PALA
                     rectPala.setX(palaPosX);
