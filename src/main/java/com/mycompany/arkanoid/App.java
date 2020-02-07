@@ -7,12 +7,15 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
@@ -44,6 +47,14 @@ public class App extends Application {
     byte palaDirectionX = 0;
     byte palaDirectionY = 0;
     
+  //variables ladrillos  
+    int brickRowCount = 3;
+    int brickColumnCount = 5;
+    int brickWidth = 75;
+    int brickHeight = 20;
+    int brickPadding = 10;
+    int brickOffsetTop = 30;
+    int brickOffsetLeft = 30;
     
     
     
@@ -62,6 +73,41 @@ public class App extends Application {
         var scene = new Scene(root, Scene_width, Scene_height);
         stage.setScene(scene);
         stage.show();
+        
+//        HBox hbox = new HBox();
+//        root.getChildren().add(hbox);
+        
+//        Button button1 = new Button("Terminar partida");
+//        hbox.getChildren().add(button1);
+        
+//        VBox vbox = new VBox();
+//        hbox.getChildren().add(vbox);
+ //       vbox.setVisible(false);
+        
+ //       Label label1 = new Label("Se acabo la partida");
+ //       vbox.getChildren().add(label1);
+        
+ //       Button button2 = new Button("Reiniciar la partida");
+ //       vbox.getChildren().add(button2);
+        
+//        button1.setOnAction((ActionEvent e) -> {
+//            terminarPartida();
+//        });
+        
+ //       button2.setOnAction((ActionEvent e) -> {
+ //           reiniciarPartida();
+ //       });
+        
+ //       private void terminarPartida() {
+ //               vbox.setVisible(true);
+ //               button1.setVisible(false);
+ //       };
+        
+ //       };private void reiniciarPartida() {
+ //               vbox.setVisible(true);
+ //               button1.setVisible(false);
+ //       };
+        
         
         //fondo del juego
         Image fondo = new Image(getClass().getResourceAsStream("/imagenes/fondo.png"));
@@ -92,6 +138,15 @@ public class App extends Application {
         rectPala.setY(palaPosY);
         rectPala.setFill(Color.GREEN);        
         root.getChildren().add(rectPala);
+        
+        
+        //int bricks = [];
+        //    for(c=0; c<brickColumnCount; c++) {
+        //        bricks[c] = [];
+        //        for(r=0; r<brickRowCount; r++) {
+        //            bricks[c][r] = { x: 0, y: 0 };
+        //        }
+        //    }
         
         
 //        Group groupPala = new Group();
