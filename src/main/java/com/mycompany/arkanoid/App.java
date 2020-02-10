@@ -5,6 +5,7 @@ import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -20,6 +21,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
+import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -32,6 +34,7 @@ public class App extends Application {
     int Scene_width = 340;
     int Scene_height = 420;
     short stickHeight = 50;
+    final short TEXT_SIZE = 24;
     
     short ballCenterX = 0;
     byte ballCurrentSpeedX = 3;
@@ -42,7 +45,7 @@ public class App extends Application {
     byte ballDirectionY = 1;
     
     short palaPosX = (short)((Scene_height)/2);
-    short palaPosY = 400;
+    short palaPosY = 380;
     byte palaCurrentSpeed = 3;
     byte palaDirectionX = 0;
     byte palaDirectionY = 0;
@@ -123,6 +126,23 @@ public class App extends Application {
         circleBall.setFill(Color.RED);
         root.getChildren().add(circleBall);
         
+        //ladrillos
+        Rectangle rectbrick1 = new Rectangle();
+        rectbrick1.setWidth(50);
+        rectbrick1.setHeight(10);
+        rectbrick1.setX(100);
+        rectbrick1.setY(50);
+        rectbrick1.setFill(Color.YELLOW);
+        root.getChildren().add(rectbrick1);
+        
+        Rectangle rectbrick2 = new Rectangle();
+        rectbrick2.setWidth(50);
+        rectbrick2.setHeight(10);
+        rectbrick2.setX(200);
+        rectbrick2.setY(50);
+        rectbrick2.setFill(Color.PINK);
+        root.getChildren().add(rectbrick2);
+        
         //barra de control
    //     RECTANGLE  =;
 //        Image barra = new Image(getClass().getResourceAsStream("/imagenes/barracontrol.PNG"));
@@ -131,6 +151,7 @@ public class App extends Application {
 //        imageViewPala.setY(palaPosY);
 //        root.getChildren().add(imageViewPala);
         
+    // Barra de control
         Rectangle rectPala = new Rectangle();
         rectPala.setWidth(50);
         rectPala.setHeight(10);
@@ -139,20 +160,44 @@ public class App extends Application {
         rectPala.setFill(Color.GREEN);        
         root.getChildren().add(rectPala);
         
+    // Panel para mostrar textos (puntuaciones)
+        HBox paneTextScore = new HBox();
+        paneTextScore.setTranslateY(20);
+        paneTextScore.setMinWidth(Scene_width);
+        paneTextScore.setAlignment(Pos.CENTER);
+        root.getChildren().add(paneTextScore);
         
-        //int bricks = [];
-        //    for(c=0; c<brickColumnCount; c++) {
-        //        bricks[c] = [];
-        //        for(r=0; r<brickRowCount; r++) {
-        //            bricks[c][r] = { x: 0, y: 0 };
-        //        }
-        //    }
+    // Texto de etiqueta para la puntuación
+        Text textTitleScore = new Text("Score: ");
+        textTitleScore.setFont(Font.font(TEXT_SIZE));
+        textTitleScore.setFill(Color.WHITE);
+        
+    // Texto para la puntuación
+        textScore = new Text("0");
+        textScore.setFont(Font.font(TEXT_SIZE));
+        textScore.setFill(Color.WHITE);
+        
+    // Texto de etiqueta para la puntuación máxima
+        Text textTitleMaxScore = new Text("          Max.Score: ");
+        textTitleMaxScore.setFont(Font.font(TEXT_SIZE));
+        textTitleMaxScore.setFill(Color.WHITE);
+        
+    // Texto para la puntuación máxima
+        textHighScore = new Text("0");
+        textHighScore.setFont(Font.font(TEXT_SIZE));
+        textHighScore.setFill(Color.WHITE);
+
+    // Añadir los textos al panel reservado para ellos 
+        paneTextScore.setSpacing(10);
+        paneTextScore.getChildren().add(textTitleScore);
+        paneTextScore.getChildren().add(textScore);
+        paneTextScore.getChildren().add(textTitleMaxScore);
+        paneTextScore.getChildren().add(textHighScore);
         
         
-//        Group groupPala = new Group();
-//        groupPala.getChildren().add(rectPala);
-//        groupPala.getChildren().add(imageViewPala);
-//        root.getChildren().add(groupPala);
+        
+        
+
  
     
         //control de la barra <- o ->
@@ -210,64 +255,43 @@ public class App extends Application {
                     
                     // Control de rebote vertical  
                     if(ballCenterY >= Scene_height) {
-                        
+                        if(score > highScore) {
+                            highScore = score;
+                            textHighScore.setText(String.valueOf(highScore));
+                        }
+                        score = 0;
+                        textScore.setText(String.valueOf(score));
                         ballDirectionY = -1;
                     } else if(ballCenterY <= 0){
                         ballDirectionY = 1;
                     }
                     
-                    // DETECCIÓN DE COLISIÓN 
+                // DETECCIÓN DE COLISIÓN BARRA DE CONTROL Y BOLA
                     Shape shapeCollision = Shape.intersect(circleBall, rectPala);
                     boolean colisionVacia = shapeCollision.getBoundsInLocal().isEmpty();
-                    if(colisionVacia == false) {
-                        ballDirectionX = 1;
+                    if(colisionVacia == false && ballDirectionX == 1) {
+                        ballDirectionY = -1;
+                    } else if(colisionVacia == false && ballDirectionX == -1) {
+                        ballDirectionY = 1;
+                    }
+                    
+                    //DETECCION DE COLISION BOLA Y LADRILLO 1
+                    Shape shapeCollision1 = Shape.intersect(circleBall, rectbrick1);
+                    boolean colisionVacia1 = shapeCollision1.getBoundsInLocal().isEmpty();
+                    if(colisionVacia1 == false) {
+                        rectbrick1.setVisible(colisionVacia1 == true); 
                         score++;
                         textScore.setText(String.valueOf(score));
                     }
                     
-                    
- //                   private int getStickCollisionZone(Circle ball, Rectangle stick) {
- //                       if (shape.intersect(ball, stick)getBoundInLocal().isEmpty()) {
- //                           return 0;
- //                       } else {
- //                           double offsetBallStick = ball.getCenterY()- stick.getY();
- //                           if(offsetBallStick < stick.getHeight() * 0.1) {
- //                               return 1;
- //                           } else if(offsetBallStick < stick.getHeight() / 2) {
- //                               return 2;
- //                           } else if(offsetBallStick >= stick.getHeight() / 2 && offsetBallStick < stick.getHeight() * 0.9) {
-  //                              return 3;
- //                           } else {
- //                               return 4;
- //                           }
- //                       }
- //                   }
-                    
- //                   int collisionZone = getStickCollisionZone(circleBall, rectPala);
-                    
- //                   private void calculateBallSpeed(int collisionZone) {
- //                       switch(collisionZone) {
- //                           case 0:
- //                               break;
- //                           case 1:
- //                               ballCurrentSpeedX = -3;
- //                               ballCurrentSpeedY = -6;
- //                               break;
- //                           case 2:
- //                               ballCurrentSpeedX = -3;
- //                               ballCurrentSpeedY = -3;
- //                               break;
- //                           case 3:
- //                               ballCurrentSpeedX = -3;
- //                               ballCurrentSpeedY = 3;
- //                               break;
- //                           case 4:
- //                               ballCurrentSpeedX = -3;
- //                               ballCurrentSpeedY = 6;
- //                               break;        
- //                       }
-                    //}
-//                    calculateBallSpeed(getStickCollisionZone(circleBall, rectPala));
+                    //DETECCION DE COLISION BOLA Y LADRILLO 2
+                    Shape shapeCollision2 = Shape.intersect(circleBall, rectbrick2);
+                    boolean colisionVacia2 = shapeCollision2.getBoundsInLocal().isEmpty();
+                    if(colisionVacia2 == false) {
+                        rectbrick2.setVisible(colisionVacia2 == true); 
+                        score++;
+                        textScore.setText(String.valueOf(score));
+                    }                  
                     
                     // ANIMACIÓN DE LA PALA
                     rectPala.setX(palaPosX);
