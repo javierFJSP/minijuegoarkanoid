@@ -62,6 +62,7 @@ public class App extends Application {
     
     
     // Cuadros de texto para las puntuaciones
+    
     Text textScore;
     Text textHighScore;
     // Puntuación actual
@@ -77,39 +78,36 @@ public class App extends Application {
         stage.setScene(scene);
         stage.show();
         
-//        HBox hbox = new HBox();
-//        root.getChildren().add(hbox);
+        HBox hbox = new HBox();
+        root.getChildren().add(hbox);
         
-//        Button button1 = new Button("Terminar partida");
-//        hbox.getChildren().add(button1);
         
-//        VBox vbox = new VBox();
-//        hbox.getChildren().add(vbox);
- //       vbox.setVisible(false);
+        VBox vbox = new VBox();
+        hbox.getChildren().add(vbox);
+        vbox.setVisible(false);
         
- //       Label label1 = new Label("Se acabo la partida");
- //       vbox.getChildren().add(label1);
+        Label label1 = new Label("Se acabo la partida");
+        vbox.getChildren().add(label1);
         
- //       Button button2 = new Button("Reiniciar la partida");
- //       vbox.getChildren().add(button2);
         
-//        button1.setOnAction((ActionEvent e) -> {
-//            terminarPartida();
-//        });
         
- //       button2.setOnAction((ActionEvent e) -> {
- //           reiniciarPartida();
- //       });
+        //button1.setOnAction((ActionEvent e) -> {
+        //    terminarPartida();
+        //});
         
- //       private void terminarPartida() {
- //               vbox.setVisible(true);
- //               button1.setVisible(false);
- //       };
+        //button2.setOnAction((ActionEvent e) -> {
+        //    reiniciarPartida();
+        //});
         
- //       };private void reiniciarPartida() {
- //               vbox.setVisible(true);
- //               button1.setVisible(false);
- //       };
+        //private void terminarPartida(e) {
+        //        vbox.setVisible(true);
+        //        button1.setVisible(false);
+        //};
+        
+        //};private void reiniciarPartida() {
+        //        vbox.setVisible(true);
+        //        button1.setVisible(false);
+        //};
         
         
         //fondo del juego
@@ -126,7 +124,7 @@ public class App extends Application {
         circleBall.setFill(Color.RED);
         root.getChildren().add(circleBall);
         
-        //ladrillos
+        //ladrillo1
         Rectangle rectbrick1 = new Rectangle();
         rectbrick1.setWidth(50);
         rectbrick1.setHeight(10);
@@ -135,6 +133,7 @@ public class App extends Application {
         rectbrick1.setFill(Color.YELLOW);
         root.getChildren().add(rectbrick1);
         
+        //ladrillo2
         Rectangle rectbrick2 = new Rectangle();
         rectbrick2.setWidth(50);
         rectbrick2.setHeight(10);
@@ -142,6 +141,15 @@ public class App extends Application {
         rectbrick2.setY(50);
         rectbrick2.setFill(Color.PINK);
         root.getChildren().add(rectbrick2);
+        
+        //ladrillo2
+        Rectangle rectbrick3 = new Rectangle();
+        rectbrick3.setWidth(50);
+        rectbrick3.setHeight(10);
+        rectbrick3.setX(150);
+        rectbrick3.setY(100);
+        rectbrick3.setFill(Color.PURPLE);
+        root.getChildren().add(rectbrick3);
         
         //barra de control
    //     RECTANGLE  =;
@@ -215,7 +223,7 @@ public class App extends Application {
         });
         
         
-        
+        // Así se haría si se quisiera parar al soltar la tecla
         scene.setOnKeyReleased(new EventHandler<KeyEvent>() {
             public void handle(final KeyEvent keyEvent) {
                 palaDirectionX = 0;
@@ -223,7 +231,14 @@ public class App extends Application {
         });
         
         
-        
+        // ç
+        if (score < 0) {
+            ballDirectionX = 0;
+            ballDirectionY = 0;
+            palaPosX = 0;
+            palaPosY = 0;
+            vbox.setVisible(true);
+        }
         
         
         
@@ -271,8 +286,8 @@ public class App extends Application {
                     boolean colisionVacia = shapeCollision.getBoundsInLocal().isEmpty();
                     if(colisionVacia == false && ballDirectionX == 1) {
                         ballDirectionY = -1;
-                    } else if(colisionVacia == false && ballDirectionX == -1) {
-                        ballDirectionY = 1;
+                    } else if(colisionVacia == false && ballDirectionY == 1) {
+                        ballDirectionY = -1;
                     }
                     
                     //DETECCION DE COLISION BOLA Y LADRILLO 1
@@ -282,6 +297,7 @@ public class App extends Application {
                         rectbrick1.setVisible(colisionVacia1 == true); 
                         score++;
                         textScore.setText(String.valueOf(score));
+                        
                     }
                     
                     //DETECCION DE COLISION BOLA Y LADRILLO 2
@@ -291,7 +307,18 @@ public class App extends Application {
                         rectbrick2.setVisible(colisionVacia2 == true); 
                         score++;
                         textScore.setText(String.valueOf(score));
-                    }                  
+                        
+                    } 
+                    
+                    //DETECCION DE COLISION BOLA Y LADRILLO 3
+                    Shape shapeCollision3 = Shape.intersect(circleBall, rectbrick3);
+                    boolean colisionVacia3 = shapeCollision3.getBoundsInLocal().isEmpty();
+                    if(colisionVacia3 == false) {
+                        rectbrick3.setVisible(colisionVacia3 == true); 
+                        score++;
+                        textScore.setText(String.valueOf(score));
+                        
+                    }
                     
                     // ANIMACIÓN DE LA PALA
                     rectPala.setX(palaPosX);
