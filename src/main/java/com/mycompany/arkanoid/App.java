@@ -34,7 +34,7 @@ public class App extends Application {
     int Scene_width = 340;
     int Scene_height = 420;
     short stickHeight = 50;
-    final short TEXT_SIZE = 24;
+    final short TEXT_SIZE = 19;
     
     short ballCenterX = 0;
     byte ballCurrentSpeedX = 3;
@@ -91,23 +91,7 @@ public class App extends Application {
         
         
         
-        //button1.setOnAction((ActionEvent e) -> {
-        //    terminarPartida();
-        //});
         
-        //button2.setOnAction((ActionEvent e) -> {
-        //    reiniciarPartida();
-        //});
-        
-        //private void terminarPartida(e) {
-        //        vbox.setVisible(true);
-        //        button1.setVisible(false);
-        //};
-        
-        //};private void reiniciarPartida() {
-        //        vbox.setVisible(true);
-        //        button1.setVisible(false);
-        //};
         
         
         //fondo del juego
@@ -186,7 +170,7 @@ public class App extends Application {
         textScore.setFill(Color.WHITE);
         
     // Texto de etiqueta para la puntuación máxima
-        Text textTitleMaxScore = new Text("          Max.Score: ");
+        Text textTitleMaxScore = new Text("Max.Score: ");
         textTitleMaxScore.setFont(Font.font(TEXT_SIZE));
         textTitleMaxScore.setFill(Color.WHITE);
         
