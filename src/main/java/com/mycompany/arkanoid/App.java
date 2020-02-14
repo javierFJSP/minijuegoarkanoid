@@ -50,7 +50,7 @@ public class App extends Application {
     byte palaDirectionX = 0;
     byte palaDirectionY = 0;
     
-  //variables ladrillos  
+//variables ladrillos  
     int brickRowCount = 3;
     int brickColumnCount = 5;
     int brickWidth = 75;
@@ -61,13 +61,13 @@ public class App extends Application {
     
     
     
-    // Cuadros de texto para las puntuaciones
+// Cuadros de texto para las puntuaciones
     
     Text textScore;
     Text textHighScore;
-    // Puntuación actual
+// Puntuación actual
     int score;
-    // Puntuación máxima
+// Puntuación máxima
     int highScore;
     
     @Override
@@ -92,15 +92,13 @@ public class App extends Application {
         
         
         
-        
-        
-        //fondo del juego
+    //fondo del juego
         Image fondo = new Image(getClass().getResourceAsStream("/imagenes/fondo.png"));
         ImageView imageView1 = new ImageView(fondo);
         root.getChildren().add(imageView1);
         
         
-        //pelota
+    //pelota
         Circle circleBall = new Circle();
         circleBall.setCenterX(50);
         circleBall.setCenterY(30);
@@ -108,7 +106,7 @@ public class App extends Application {
         circleBall.setFill(Color.RED);
         root.getChildren().add(circleBall);
         
-        //ladrillo1
+    //ladrillo1
         Rectangle rectbrick1 = new Rectangle();
         rectbrick1.setWidth(50);
         rectbrick1.setHeight(10);
@@ -117,7 +115,7 @@ public class App extends Application {
         rectbrick1.setFill(Color.YELLOW);
         root.getChildren().add(rectbrick1);
         
-        //ladrillo2
+    //ladrillo2
         Rectangle rectbrick2 = new Rectangle();
         rectbrick2.setWidth(50);
         rectbrick2.setHeight(10);
@@ -126,7 +124,7 @@ public class App extends Application {
         rectbrick2.setFill(Color.PINK);
         root.getChildren().add(rectbrick2);
         
-        //ladrillo2
+    //ladrillo3
         Rectangle rectbrick3 = new Rectangle();
         rectbrick3.setWidth(50);
         rectbrick3.setHeight(10);
@@ -186,13 +184,23 @@ public class App extends Application {
         paneTextScore.getChildren().add(textTitleMaxScore);
         paneTextScore.getChildren().add(textHighScore);
         
+        HBox hbox1 = new HBox();
+        hbox1.getChildren().addAll(textTitleScore, textScore);
+        root.getChildren().add(hbox1);
         
+        HBox hbox2 = new HBox();
+        hbox1.getChildren().addAll(textTitleMaxScore, textHighScore);
+        root.getChildren().add(hbox2);
+        
+        VBox vbox1 = new VBox();
+        vbox1.getChildren().addAll(hbox1, hbox2);
+        root.getChildren().add(vbox1);
         
         
 
  
     
-        //control de la barra <- o ->
+    //control de la barra <- o ->
         scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
             public void handle(final KeyEvent keyEvent) {
                 switch(keyEvent.getCode()) {
@@ -207,7 +215,7 @@ public class App extends Application {
         });
         
         
-        // Así se haría si se quisiera parar al soltar la tecla
+    // Así se haría si se quisiera parar al soltar la tecla
         scene.setOnKeyReleased(new EventHandler<KeyEvent>() {
             public void handle(final KeyEvent keyEvent) {
                 palaDirectionX = 0;
@@ -215,13 +223,10 @@ public class App extends Application {
         });
         
         
-        // ç
+        // 
         if (score < 0) {
-            ballDirectionX = 0;
-            ballDirectionY = 0;
-            palaPosX = 0;
-            palaPosY = 0;
-            vbox.setVisible(true);
+            
+            label1.setVisible(true);
         }
         
         
@@ -239,12 +244,12 @@ public class App extends Application {
         Timeline timeline = new Timeline(
             new KeyFrame(Duration.seconds(0.017), new EventHandler<ActionEvent>() {
                 public void handle(ActionEvent ae) {
-                    // ANIMACIÓN DE LA BOLA
+                // ANIMACIÓN DE LA BOLA
                     circleBall.setCenterX(ballCenterX);
                     circleBall.setCenterY(ballCenterY);
                     ballCenterX += ballCurrentSpeedX * ballDirectionX;
                     ballCenterY += ballCurrentSpeedY * ballDirectionY;
-                    // Control de rebote horizontal
+                // Control de rebote horizontal
                     if(ballCenterX >= Scene_width) {
                       
                         ballDirectionX = -1;
@@ -252,7 +257,7 @@ public class App extends Application {
                         ballDirectionX = 1;
                     }
                     
-                    // Control de rebote vertical  
+                // Control de rebote vertical  
                     if(ballCenterY >= Scene_height) {
                         if(score > highScore) {
                             highScore = score;
@@ -274,7 +279,7 @@ public class App extends Application {
                         ballDirectionY = -1;
                     }
                     
-                    //DETECCION DE COLISION BOLA Y LADRILLO 1
+                //DETECCION DE COLISION BOLA Y LADRILLO 1
                     Shape shapeCollision1 = Shape.intersect(circleBall, rectbrick1);
                     boolean colisionVacia1 = shapeCollision1.getBoundsInLocal().isEmpty();
                     if(colisionVacia1 == false) {
@@ -284,7 +289,7 @@ public class App extends Application {
                         
                     }
                     
-                    //DETECCION DE COLISION BOLA Y LADRILLO 2
+                //DETECCION DE COLISION BOLA Y LADRILLO 2
                     Shape shapeCollision2 = Shape.intersect(circleBall, rectbrick2);
                     boolean colisionVacia2 = shapeCollision2.getBoundsInLocal().isEmpty();
                     if(colisionVacia2 == false) {
@@ -294,7 +299,7 @@ public class App extends Application {
                         
                     } 
                     
-                    //DETECCION DE COLISION BOLA Y LADRILLO 3
+                //DETECCION DE COLISION BOLA Y LADRILLO 3
                     Shape shapeCollision3 = Shape.intersect(circleBall, rectbrick3);
                     boolean colisionVacia3 = shapeCollision3.getBoundsInLocal().isEmpty();
                     if(colisionVacia3 == false) {
@@ -304,7 +309,7 @@ public class App extends Application {
                         
                     }
                     
-                    // ANIMACIÓN DE LA PALA
+                // ANIMACIÓN DE LA PALA
                     rectPala.setX(palaPosX);
                     palaPosX += palaCurrentSpeed * palaDirectionX;
                     if(palaPosX <= 0 || palaPosX >= Scene_height-stickHeight) {
