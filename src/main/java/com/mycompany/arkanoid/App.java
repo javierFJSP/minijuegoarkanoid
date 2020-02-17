@@ -49,18 +49,8 @@ public class App extends Application {
     byte palaCurrentSpeed = 3;
     byte palaDirectionX = 0;
     byte palaDirectionY = 0;
-    
-//variables ladrillos  
-    int brickRowCount = 3;
-    int brickColumnCount = 5;
-    int brickWidth = 75;
-    int brickHeight = 20;
-    int brickPadding = 10;
-    int brickOffsetTop = 30;
-    int brickOffsetLeft = 30;
-    
-    
-    
+
+  
 // Cuadros de texto para las puntuaciones
     
     Text textScore;
@@ -132,14 +122,7 @@ public class App extends Application {
         rectbrick3.setY(100);
         rectbrick3.setFill(Color.PURPLE);
         root.getChildren().add(rectbrick3);
-        
-        //barra de control
-   //     RECTANGLE  =;
-//        Image barra = new Image(getClass().getResourceAsStream("/imagenes/barracontrol.PNG"));
-//        ImageView imageViewPala = new ImageView(barra);
-//        imageViewPala.setX(palaPosX);
-//        imageViewPala.setY(palaPosY);
-//        root.getChildren().add(imageViewPala);
+
         
     // Barra de control
         Rectangle rectPala = new Rectangle();
@@ -184,6 +167,7 @@ public class App extends Application {
         paneTextScore.getChildren().add(textTitleMaxScore);
         paneTextScore.getChildren().add(textHighScore);
         
+    // mostrar la puntuacion a la izquierda del panel
         HBox hbox1 = new HBox();
         hbox1.getChildren().addAll(textTitleScore, textScore);
         root.getChildren().add(hbox1);
@@ -222,24 +206,7 @@ public class App extends Application {
             }
         });
         
-        
-        // 
-        if (score < 0) {
-            
-            label1.setVisible(true);
-        }
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
+    
         
         Timeline timeline = new Timeline(
             new KeyFrame(Duration.seconds(0.017), new EventHandler<ActionEvent>() {
